@@ -15,16 +15,14 @@ connection.connect();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  connection.query('INSERT INTO tsa VALUES(122)', (err,results,fields) => {
+    if(err) {
+      console.log(err)
+      console.log(results)
+      console.log(fields)
+    }
+  })
   res.send('respond with a resource');
 });
 
-router.get('/s', async(res,req) => {
-  connection.query('CREATE TABLE tsa(age int(50))', async(err,results,fields) => {
-    if(err) {
-      console.log(err)
-    }
-    console.log(results)
-    console.log(fields)
-  })
-})
 module.exports = router;
