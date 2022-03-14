@@ -1,11 +1,13 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const bodyParser = require('body-parser')
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import { createConnection } from 'typeorm';
+import connectionOptions from './config/ormconfig';
 
 const app = express();
 
@@ -20,6 +22,10 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')));
+
+createConnection(connectionOptions).then(async connection => {
+  app.listen(3000)
+}).catch(err => console.log(err))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -39,6 +45,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
