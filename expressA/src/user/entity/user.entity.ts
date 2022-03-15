@@ -8,7 +8,7 @@ export class User extends BaseEntity{
     @Column()
     role:string;
 
-    @Column()
+    @Column({ unique:true })
     password:string;
 
     @Column()
