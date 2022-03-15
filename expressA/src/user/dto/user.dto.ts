@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class userDto {
     @IsString()
     @IsNotEmpty()
-    id:string;
+    role:string;
 
     @IsString()
     @IsNotEmpty()
