@@ -7,15 +7,16 @@ const router = express.Router();
 import * as dotenv from 'dotenv'
 dotenv.config();
 
-router.post('/signup', async(req,res) => {
+router.post('/signup', async(res: express.Response, req: express.Request) => {
     try {
     let { role, name, password }:userDto = req.body;
+    let user = new User();
 
     const hashPassword = bcrypt.hashSync(password, process.env.salt)
-    password = hashPassword;
 
-    const user = await User.create({ role, name, password})
-    await user.save()
+    user.role = role,
+    user.password = hashPassword;
+    user.name = name;
 
     return res.json({ success:true })
     } catch (e) {
@@ -23,9 +24,6 @@ router.post('/signup', async(req,res) => {
     }
 })
 
-router.post('/signin', async(res,req) => {
-    
-})
 /*
 router.get('/find', async(req,res) => {
     try {
