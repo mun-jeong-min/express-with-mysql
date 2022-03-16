@@ -103,5 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+<<<<<<< HEAD
 config
 expressA/ormconfig.json
+=======
+ormconfig.js
+>>>>>>> main
