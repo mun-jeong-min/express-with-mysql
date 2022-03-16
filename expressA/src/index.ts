@@ -7,14 +7,14 @@ const app = express()
 
 import router from './user/user'
 
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json())
-
-app.use('/user', router);
-
 createConnection().then(async connection => {
+    app.use(bodyParser.urlencoded({extended:true}))
+    app.use(bodyParser.json())
+
+    app.use('/user', router);
+    
     console.log('connect..')
+    app.listen(3000)
 }).catch(error => console.log(error));
 
-app.listen(3000)
 export default app
