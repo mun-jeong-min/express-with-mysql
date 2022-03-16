@@ -38,7 +38,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
     try {
         user = await userRepository.findOneOrFail({ where: {name}})
     } catch (e) {
-        res.status(404).send(" 일치하는 유저가 없음");
+        res.status(404).send("일치하는 유저가 없음");
     }
 
     if(!bcrypt.compareSync(password, user.password)){
