@@ -1,12 +1,12 @@
 import * as express from 'express';
 import {hash, compare} from 'bcrypt'
-import { userDto } from './dto/signup.dto';
-import { User } from './entity/user.entity';
+import { userDto } from '../dto/signup.dto';
+import { User } from '../entity/user.entity';
 import * as bcrypt from 'bcrypt'
 const router = express.Router();
 import * as dotenv from 'dotenv'
 import { getRepository } from 'typeorm';
-import { loginDto } from './dto/login.dto';
+import { loginDto } from '../dto/login.dto';
 import * as jwt from 'jsonwebtoken'
 dotenv.config();
 
@@ -19,6 +19,7 @@ router.post('/signup', async(req: express.Request, res: express.Response) => {
     user.role = role,
     user.password = hashPassword;
     user.name = name;
+
 
     const userRepository = getRepository(User);
 
@@ -50,7 +51,6 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         process.env.JWT_SECRET,
         {expiresIn:'1h'}
     )
-
     res.status(200).send(`로그인 성공 ${token}`)
 })
 

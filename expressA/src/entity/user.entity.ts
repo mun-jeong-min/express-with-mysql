@@ -1,5 +1,5 @@
+import { Length } from "class-validator";
 import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
-import { Board } from "../../board/entity/board.entity";
 
 @Entity()
 export class User extends BaseEntity{
