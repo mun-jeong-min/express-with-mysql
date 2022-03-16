@@ -15,7 +15,7 @@ createConnection().then(async connection => {
     app.use(cors())
 
     app.use('/user', userRouter);
-    app.use('/board', boardRouter);
+    app.use('/board', [tokenCheck] ,boardRouter); 
     
     console.log('connect..')
     app.listen(3000)
