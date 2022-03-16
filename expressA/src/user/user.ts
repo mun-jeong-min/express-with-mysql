@@ -5,34 +5,27 @@ import { User } from './entity/user.entity';
 import * as bcrypt from 'bcrypt'
 const router = express.Router();
 import * as dotenv from 'dotenv'
+import { getRepository } from 'typeorm';
 dotenv.config();
 
-router.post('/signup', async(res: express.Response, req: express.Request) => {
-    try {
+router.post('/signup', async(req: express.Request, res: express.Response) => {
     let { role, name, password }:userDto = req.body;
     let user = new User();
 
-    const hashPassword = bcrypt.hashSync(password, process.env.salt)
+    const hashPassword = bcrypt.hashSync(password,+process.env.salt)
 
     user.role = role,
     user.password = hashPassword;
     user.name = name;
 
-    return res.json({ success:true })
-    } catch (e) {
-        return res.json({ success:false, e })
-    }
-})
+    const userRepository = getRepository(User);
 
-/*
-router.get('/find', async(req,res) => {
     try {
-      const users = await User.find()
-      return res.send({ users })   
-    } catch (error) {
-        return res.json({ success:"404", error })
+        await userRepository.save(user)
+    } catch (e) {
+        return res.status(409).send("password already in use")  
     }
-})*/
-
+    res.status(201).send("user created")
+})
 
 export default router
