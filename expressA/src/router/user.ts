@@ -1,12 +1,12 @@
 import * as express from 'express';
 import {hash, compare} from 'bcrypt'
-import { userDto } from '../dto/signup.dto';
+import { userDto } from '../dto/user/signup.dto';
 import { User } from '../entity/user.entity';
 import * as bcrypt from 'bcrypt'
 const router = express.Router();
 import * as dotenv from 'dotenv'
 import { getRepository } from 'typeorm';
-import { loginDto } from '../dto/login.dto';
+import { loginDto } from '../dto/user/login.dto';
 import * as jwt from 'jsonwebtoken'
 dotenv.config();
 
