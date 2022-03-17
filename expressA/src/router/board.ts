@@ -1,18 +1,23 @@
 import * as express from 'express'
+import { userInfo } from 'os';
 import { getRepository } from 'typeorm';
 import { boardDto } from '../dto/board/board.dto';
 import { Board } from '../entity/board.entity'
+import { User } from '../entity/user.entity';
 const router = express.Router();
 
 router.post('/create', async(req: express.Request, res:express.Response) => {
+    const id = res.locals.jwtPayload.userId;
+    
+    const boardRepository = getRepository(Board);
+    let user = await boardRepository.findOneOrFail({where: {id:id}})
 
     let {title, description}:boardDto = req.body;
     let board = new Board();
     
     board.title = title;
     board.description = description;
-
-    const boardRepository = getRepository(Board);
+    board = user; // 수정 해야할 부분
 
     try {
         await boardRepository.save(board);
@@ -26,13 +31,25 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
 router.get('/find', async(req:express.Request, res:express.Response) => {
     const boardRepository = getRepository(Board);
 
-    const users = boardRepository.find();
+    const board = boardRepository.find();
 
-    if(!users) {
+    if(!board) {
         res.status(400).send();
         return;
     }
-    res.status(200).send(users);
+    res.send(board)
+})
+
+router.get('/findone', async(req:express.Request, res:express.Response) => {
+    const id = res.locals.jwtPayload.userId;
+    const boardRepository = await getRepository(Board);
+
+    let user = await boardRepository.findOneOrFail({where: {id:id}})
+
+    return await boardRepository
+    .createQueryBuilder('board')
+    .where('board.userId = :userId', {userId: user.id})
+    .getMany();
 })
 
 router.put('/update/:id', async(req:express.Request, res:express.Response) => {
