@@ -10,14 +10,15 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     const id = res.locals.jwtPayload.userId;
     
     const boardRepository = getRepository(Board);
-    let user = await boardRepository.findOneOrFail({where: {id:id}})
+    const userRepository = getRepository(User);
+    let user = await userRepository.findOneOrFail({ where: {id:id} })
 
     let {title, description}:boardDto = req.body;
     let board = new Board();
     
     board.title = title;
     board.description = description;
-    board = user; // 수정 해야할 부분
+    board.user = user;
 
     try {
         await boardRepository.save(board);
@@ -25,31 +26,34 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
         res.status(400).send("게시판 작성에 실패하셨습니다.")
         return;
     }
-    res.status(200).send("게시판 작성 성공")
+    res.status(201).send("게시판 작성 성공")
 })
 
 router.get('/find', async(req:express.Request, res:express.Response) => {
     const boardRepository = getRepository(Board);
 
-    const board = boardRepository.find();
+    const board = await boardRepository.find();
 
     if(!board) {
         res.status(400).send();
         return;
     }
-    res.send(board)
+    res.status(200).send(board)
 })
 
 router.get('/findone', async(req:express.Request, res:express.Response) => {
     const id = res.locals.jwtPayload.userId;
     const boardRepository = await getRepository(Board);
+    const userRepository = await getRepository(User);
 
-    let user = await boardRepository.findOneOrFail({where: {id:id}})
+    let user = await userRepository.findOneOrFail({where: {id:id}})
 
-    return await boardRepository
+    const boards = await boardRepository
     .createQueryBuilder('board')
     .where('board.userId = :userId', {userId: user.id})
     .getMany();
+
+    res.status(200).send(boards)
 })
 
 router.put('/update/:id', async(req:express.Request, res:express.Response) => {
@@ -68,7 +72,7 @@ router.put('/update/:id', async(req:express.Request, res:express.Response) => {
         res.status(400).send()
         return;
     }
-    res.status(200).send("수정 성공")
+    res.status(201).send("수정 성공")
 })
 
 router.delete('/delete/:id', async(req:express.Request, res: express.Response) => {
