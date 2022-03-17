@@ -1,5 +1,6 @@
-import { Length } from "class-validator";
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
+import { type } from "os";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne} from "typeorm";
+import { Board } from "./board.entity";
 
 @Entity()
 export class User extends BaseEntity{
@@ -14,4 +15,7 @@ export class User extends BaseEntity{
 
     @Column({ unique:true })
     name:string;
+
+    @ManyToOne(type => Board, board=>board.user, {eager:true})
+    board:Board;
 }
