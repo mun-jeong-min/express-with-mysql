@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { getRepository } from 'typeorm';
-import { boardDto } from '../dto/board.dto';
+import { boardDto } from '../dto/board/board.dto';
 import { Board } from '../entity/board.entity'
 const router = express.Router();
 
@@ -36,4 +36,22 @@ router.get('/find', async(req:express.Request, res:express.Response) => {
     res.status(200).send();
 })
 
+router.put('/update/:id', async(req:express.Request, res:express.Response) => {
+    const id = req.params.id;
+    let {title, description} = req.body;
+
+    const boardRepository = getRepository(Board);
+    const board = await boardRepository.findOneOrFail({ where: {id} })
+
+    board.title = title;
+    board.description = description;
+
+    try {
+        await boardRepository.save(board);
+    } catch (e) {
+        res.status(400).send()
+        return;
+    }
+    res.status(200).send("수정 성공")
+})
 export default router
