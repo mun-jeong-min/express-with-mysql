@@ -32,8 +32,7 @@ router.get('/find', async(req:express.Request, res:express.Response) => {
         res.status(400).send();
         return;
     }
-    console.log(users);
-    res.status(200).send();
+    res.status(200).send(users);
 })
 
 router.put('/update/:id', async(req:express.Request, res:express.Response) => {
@@ -53,5 +52,20 @@ router.put('/update/:id', async(req:express.Request, res:express.Response) => {
         return;
     }
     res.status(200).send("수정 성공")
+})
+
+router.delete('/delete/:id', async(req:express.Request, res: express.Response) => {
+    const id = req.params.id;
+    const boardRepository = getRepository(Board);
+
+    const board = await boardRepository.findOneOrFail({ where: {id} });
+
+    try {
+        await boardRepository.delete(board);
+    } catch (e) {
+        res.status(400).send()
+        return;
+    }
+    res.status(200).send("삭제 성공")
 })
 export default router
