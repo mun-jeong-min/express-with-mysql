@@ -20,7 +20,6 @@ router.post('/signup', async(req: express.Request, res: express.Response) => {
     user.password = hashPassword;
     user.name = name;
 
-
     const userRepository = getRepository(User);
 
     try {

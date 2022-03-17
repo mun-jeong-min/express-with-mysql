@@ -16,6 +16,6 @@ export class User extends BaseEntity{
     @Column({ unique:true })
     name:string;
 
-    @ManyToOne(type => Board, board=>board.user, {eager:true})
+    @OneToMany(type => Board, board=>board.user, {eager:true})
     board:Board;
 }
