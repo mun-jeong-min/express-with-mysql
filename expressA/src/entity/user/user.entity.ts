@@ -1,6 +1,7 @@
 import { type } from "os";
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne, ManyToMany} from "typeorm";
 import { Board } from "../board/board.entity";
+import { Comment } from "../comment/comment.entity";
 
 @Entity()
 export class User extends BaseEntity{
@@ -18,4 +19,7 @@ export class User extends BaseEntity{
 
     @OneToMany(type => Board, board => board.user, {eager:true})
     board:Board;
+
+    @OneToMany(type => Comment, comment => comment.user, {eager: true})
+    comment:Comment[];
 }   
