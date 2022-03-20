@@ -11,6 +11,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     
     const boardRepository = getRepository(Board);
     const userRepository = getRepository(User);
+
     let user = await userRepository.findOneOrFail({ where: {id:id} })
 
     let {title, description}:boardDto = req.body;
@@ -19,7 +20,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     board.title = title;
     board.description = description;
     board.user = user;
-
+    
     try {
         await boardRepository.save(board);
     } catch (e) {

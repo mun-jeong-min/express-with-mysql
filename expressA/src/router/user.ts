@@ -25,7 +25,7 @@ router.post('/signup', async(req: express.Request, res: express.Response) => {
     try {
         await userRepository.save(user)
     } catch (e) {
-        return res.status(409).send("name already in use")
+        return res.status(409).send("user already in use")
     }
     res.status(201).send("user created")
 })
