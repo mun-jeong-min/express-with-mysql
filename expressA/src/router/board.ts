@@ -1,9 +1,9 @@
 import * as express from 'express'
-import { userInfo } from 'os';
 import { getRepository } from 'typeorm';
 import { boardDto } from '../entity/board/dto/board.dto';
 import { Board } from '../entity/board/board.entity'
 import { User } from '../entity/user/user.entity';
+import { Comment } from '../entity/comment/comment.entity';
 const router = express.Router();
 
 router.post('/create', async(req: express.Request, res:express.Response) => {
@@ -11,8 +11,10 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     
     const boardRepository = getRepository(Board);
     const userRepository = getRepository(User);
+    const commentRepository = getRepository(Comment);
 
     let user = await userRepository.findOneOrFail({ where: {id:id} })
+    let comment = await commentRepository.find({where: {userId: id}})
 
     let {title, description}:boardDto = req.body;
     let board = new Board();
@@ -20,6 +22,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     board.title = title;
     board.description = description;
     board.user = user;
+    board.comment = comment;
     
     try {
         await boardRepository.save(board);
