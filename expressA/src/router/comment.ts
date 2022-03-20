@@ -26,7 +26,7 @@ router.post('/create', async(req:express.Request, res:express.Response) => {
         res.status(400).send()
         return;
     }
-    res.status(200).send()
+    res.status(200).send("댓글 작성")
 })
 
 export default router

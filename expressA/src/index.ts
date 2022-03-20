@@ -7,6 +7,8 @@ const app = express()
 import * as cors from 'cors'
 import userRouter from './router/user'
 import boardRouter from './router/board'
+import commentRouter from './router/comment'
+
 import { tokenCheck } from "./middleware/jwtCheck";
 
 createConnection().then(async connection => {
@@ -16,6 +18,7 @@ createConnection().then(async connection => {
 
     app.use('/user', userRouter);
     app.use('/board', [tokenCheck] ,boardRouter); 
+    app.use('/comment', [tokenCheck], commentRouter);
     
     console.log('connect..')
     app.listen(3000)
