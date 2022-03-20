@@ -18,4 +18,4 @@ export class User extends BaseEntity{
 
     @OneToMany(type => Board, board => board.user, {eager:true})
     board:Board;
-}
+}   

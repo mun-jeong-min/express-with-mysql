@@ -1,5 +1,6 @@
 import { type } from "os";
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Comment } from "./comment.entity";
 import { User } from "./user.entity";
 
 @Entity()
@@ -14,5 +15,8 @@ export class Board extends BaseEntity{
     description: string;
 
     @ManyToOne(type => User, user=>user.board, {eager:false})
-    user:User;   
+    user:User;
+
+    @OneToMany(type => Comment, comment => comment.board, { eager:false })
+    comment:Comment;
 }
