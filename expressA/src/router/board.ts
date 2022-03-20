@@ -1,9 +1,9 @@
 import * as express from 'express'
 import { userInfo } from 'os';
 import { getRepository } from 'typeorm';
-import { boardDto } from '../dto/board/board.dto';
-import { Board } from '../entity/board.entity'
-import { User } from '../entity/user.entity';
+import { boardDto } from '../entity/board/dto/board.dto';
+import { Board } from '../entity/board/board.entity'
+import { User } from '../entity/user/user.entity';
 const router = express.Router();
 
 router.post('/create', async(req: express.Request, res:express.Response) => {

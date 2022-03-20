@@ -1,6 +1,6 @@
 import { type } from "os";
 import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToOne} from "typeorm";
-import { Board } from "./board.entity";
+import { Board } from "../board/board.entity";
 
 @Entity()
 export class User extends BaseEntity{
