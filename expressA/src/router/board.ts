@@ -11,19 +11,16 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     
     const boardRepository = getRepository(Board);
     const userRepository = getRepository(User);
-    const commentRepository = getRepository(Comment);
 
     let user = await userRepository.findOneOrFail({ where: {id:id} })
-    let comment = await commentRepository.find({where: {userId: id}})
-
+    
     let {title, description}:boardDto = req.body;
     let board = new Board();
     
     board.title = title;
     board.description = description;
     board.user = user;
-    board.comment = comment;
-    
+
     try {
         await boardRepository.save(board);
     } catch (e) {
@@ -47,8 +44,9 @@ router.get('/find', async(req:express.Request, res:express.Response) => {
 
 router.get('/findone', async(req:express.Request, res:express.Response) => {
     const id = res.locals.jwtPayload.userId;
-    const boardRepository = await getRepository(Board);
-    const userRepository = await getRepository(User);
+
+    const boardRepository = getRepository(Board);
+    const userRepository = getRepository(User);
 
     let user = await userRepository.findOneOrFail({where: {id:id}})
 

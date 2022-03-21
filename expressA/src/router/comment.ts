@@ -3,30 +3,36 @@ import { getRepository } from 'typeorm';
 import { commentDto } from '../entity/comment/dto/comment.dto';
 import { Comment } from '../entity/comment/comment.entity';
 import { User } from '../entity/user/user.entity';
+import { Board } from '../entity/board/board.entity';
 
 const router = express.Router();
 
-router.post('/create', async(req:express.Request, res:express.Response) => {
+router.post('/create/:id', async(req:express.Request, res:express.Response) => {
     let {script}:commentDto = req.body;
+    let idP = req.params.id;
 
-    const commentRepository = await getRepository(Comment);
-    const userRepository = await getRepository(User);
+    const commentRepository = getRepository(Comment);
+    const boardRepository = getRepository(Board);
+    const userRepository = getRepository(User);
 
     const id = await res.locals.jwtPayload.userId;
+    
     const user = await userRepository.findOneOrFail({where: {id:id}});
+    const board = await boardRepository.findOneOrFail({where: {id: idP}})
 
     let comment = new Comment();
 
     comment.script = script;
     comment.user = user;
+    comment.board = board;
 
     try {
         await commentRepository.save(comment);
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send(e)
         return;
     }
-    res.status(200).send("댓글 작성")
+    return res.status(200).send("댓글 작성")
 })
 
 export default router
