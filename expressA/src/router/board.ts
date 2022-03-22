@@ -33,13 +33,13 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
 router.get('/find', async(req:express.Request, res:express.Response) => {
     const boardRepository = getRepository(Board);
 
-    const board = await boardRepository.find();
-
-    if(!board) {
+    try {
+        const board = await boardRepository.find();
+        res.status(200).send(board);   
+    } catch (e) {
         res.status(400).send();
         return;
     }
-    res.status(200).send(board)
 })
 
 router.get('/findone', async(req:express.Request, res:express.Response) => {
