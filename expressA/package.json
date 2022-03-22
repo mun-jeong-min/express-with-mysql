@@ -21,6 +21,7 @@
       "jsonwebtoken": "^8.5.1",
       "mysql": "^2.18.1",
       "mysql2": "^2.3.3",
+      "redis": "^4.0.4",
       "reflect-metadata": "^0.1.10",
       "socket.io": "^4.4.1",
       "typeorm": "0.2.41",
