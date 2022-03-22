@@ -46,4 +46,22 @@ router.get('/find', async(req:express.Request, res: express.Response) => {
     }
 })
 
+router.put('/update/:id', async(req:express.Request, res:express.Response) => {
+    const commentRepository = getRepository(Comment);
+
+    const id = req.params.id;
+    let {script}:commentDto = req.body;
+
+    const comment = await commentRepository.findOne({where: {id:id}});
+
+    comment.script = script;  
+
+    try {
+        await commentRepository.save(comment);
+    } catch (e) {
+        res.status(400).send();
+        return;
+    }
+    res.status(200).send('업데이트 완료')
+})
 export default router

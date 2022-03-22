@@ -15,14 +15,12 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
 
     const user = await userRepository.findOneOrFail({ where: {id:id} })
 
-    let {title, description}:boardDto = req.body;   
+    let {title, description}:boardDto = req.body;
     let board = new Board();
-    const comments = await commentRepository.find({where: {board: board.id}})
     
     board.title = title;
     board.description = description;
     board.user = user;
-    board.comment = comments;
 
     try {
         await boardRepository.save(board);
