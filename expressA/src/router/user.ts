@@ -45,12 +45,13 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         res.status(401).send();
         return;
     }
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
         {userId: user.id, userName: name},
         process.env.JWT_SECRET,
         {expiresIn:'1h'}
     )
-    res.status(200).send(`로그인 성공 ${token}`)
+    
+    res.status(200).send(`로그인 성공 ${accessToken}`)
 })
 
 export default router

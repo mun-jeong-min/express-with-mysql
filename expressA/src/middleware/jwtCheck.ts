@@ -11,16 +11,17 @@ export const tokenCheck = (req:Request, res:Response, next:NextFunction) => {
         jwtPayload = <any>jwt.verify(token, process.env.JWT_SECRET)
         res.locals.jwtPayload = jwtPayload;  // 미들웨어를 거쳐 어디에서나 쓸수 있는 변수로 만듬
     } catch (e) {
-        res.status(201).send();
+        res.status(400).send();
     }
 
     let {userId, userName} = jwtPayload;
-    const newToken = jwt.sign(
+    const accessToken = jwt.sign(
         {userId, userName},
         process.env.JWT_SECRET,
         {expiresIn: '1h'}
     );
-    res.setHeader("token", newToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
+
+    res.setHeader("token", accessToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
 
     next();
 }

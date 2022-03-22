@@ -18,8 +18,8 @@ export class User extends BaseEntity{
     name:string;
 
     @OneToMany(type => Board, board => board.user, {eager:true})
-    board:Board;
+    board:Board[];
 
     @OneToMany(type => Comment, comment => comment.user, {eager: true})
-    comment:Comment[];
+    comment:Comment[];  
 }   
