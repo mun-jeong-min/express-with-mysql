@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv'
 import { getRepository } from 'typeorm';
 import { loginDto } from '../entity/user/dto/login.dto';
 import * as jwt from 'jsonwebtoken'
+import redisClient from '../redis/redis';
 dotenv.config();
 
 router.post('/signup', async(req: express.Request, res: express.Response) => {
@@ -15,7 +16,7 @@ router.post('/signup', async(req: express.Request, res: express.Response) => {
 
     const hashPassword = bcrypt.hashSync(password,+process.env.salt)
 
-    user.role = role,
+    user.role = role;
     user.password = hashPassword;
     user.name = name;
 
@@ -46,9 +47,15 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
     }
     const accessToken = jwt.sign(
         {userId: user.id, userName: name},
-        process.env.JWT_SECRET,
+        process.env.JWT_ACCESS_SECRET,
         {expiresIn:'1h'}
     )
+    const refreshToken = jwt.sign(
+        {},
+        process.env.JWT_REFRESH_SECRET,
+        {expiresIn:'12d'}
+    )
+    redisClient.set(refreshToken, user.id) //*
     
     res.status(200).send(`로그인 성공 ${accessToken}`)
 })

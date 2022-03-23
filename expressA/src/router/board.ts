@@ -6,7 +6,7 @@ import { User } from '../entity/user/user.entity';
 import { Comment } from '../entity/comment/comment.entity';
 const router = express.Router();
 
-router.post('/create', async(req: express.Request, res:express.Response) => {
+router.post('/create', async(req: express.Request, res:express.Response) => {   
     const id = res.locals.jwtPayload.userId;
     
     const boardRepository = getRepository(Board);
