@@ -10,6 +10,7 @@ import boardRouter from './router/board'
 import commentRouter from './router/comment'
 
 import { tokenCheck } from "./middleware/jwtCheck";
+import { refreshCheck } from "./middleware/reCheck";
 
 createConnection().then(async connection => {
     app.use(bodyParser.urlencoded({extended:true}))
@@ -17,8 +18,8 @@ createConnection().then(async connection => {
     app.use(cors())
 
     app.use('/user', userRouter);
-    app.use('/board', [tokenCheck] ,boardRouter); 
-    app.use('/comment', [tokenCheck], commentRouter);
+    app.use('/board', [tokenCheck, refreshCheck] ,boardRouter); 
+    app.use('/comment', [tokenCheck, refreshCheck], commentRouter);
     
     console.log('connect..')
     app.listen(3000)

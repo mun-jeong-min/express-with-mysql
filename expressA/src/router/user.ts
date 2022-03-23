@@ -57,7 +57,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
     )
     redisClient.set(refreshToken, user.id) //*
     
-    res.status(200).send(`로그인 성공 ${accessToken}`)
+    res.status(200).send(`로그인 성공 ${accessToken}, ${refreshToken}`)
 })
 
 export default router
