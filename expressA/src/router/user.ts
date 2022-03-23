@@ -1,5 +1,4 @@
 import * as express from 'express';
-import {hash, compare} from 'bcrypt'
 import { userDto } from '../entity/user/dto/signup.dto';
 import { User } from '../entity/user/user.entity';
 import * as bcrypt from 'bcrypt'

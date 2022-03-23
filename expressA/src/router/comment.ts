@@ -55,7 +55,7 @@ router.put('/update/:id', async(req:express.Request, res:express.Response) => {
     const comment = await commentRepository.findOne({where: {id:id}});
 
     comment.script = script;  
-
+    
     try {
         await commentRepository.save(comment);
     } catch (e) {
