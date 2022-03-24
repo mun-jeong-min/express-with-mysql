@@ -10,5 +10,6 @@ const redisInfo = {
 }
 
 const redisClient = redis.createClient(redisInfo)
+redisClient.connect()
 
 export default redisClient;

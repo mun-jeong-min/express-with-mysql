@@ -18,7 +18,7 @@ export const refreshCheck = async(req:Request, res:Response, next:NextFunction) 
         } catch (e) {
             res.status(400).send();
             return false
-        }       
+        }
     }
 
     const refreshToken = jwt.sign(
