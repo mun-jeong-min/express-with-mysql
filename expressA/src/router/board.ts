@@ -11,7 +11,6 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     
     const boardRepository = getRepository(Board);
     const userRepository = getRepository(User);
-    const commentRepository = getRepository(Comment);
 
     const user = await userRepository.findOneOrFail({ where: {id:id} })
 
@@ -24,7 +23,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
 
     try {
         await boardRepository.save(board);
-    } catch (e) {
+    } catch (e) {    
         res.status(400).send("게시판 작성에 실패하셨습니다.")
         return;
     }

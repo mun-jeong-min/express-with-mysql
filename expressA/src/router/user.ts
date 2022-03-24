@@ -46,7 +46,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         return;
     }
     const accessToken = jwt.sign(
-        {userId: user.id, userName: name},
+        {userId: user.id, userName: name},                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         process.env.JWT_ACCESS_SECRET,
         {expiresIn:'1h'}
     )
@@ -55,7 +55,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
-    redisClient.set(refreshToken, user.id) //*
+    redisClient.set(`${user.id}`, refreshToken) //*`
     
     res.status(200).send(`로그인 성공 accessToken : ${accessToken}, refreshToken : ${refreshToken}`)
 })

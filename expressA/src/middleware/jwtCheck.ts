@@ -5,25 +5,16 @@ import * as dotenv from 'dotenv'
 import { promisify } from "util";
 dotenv.config();
 
-export const tokenCheck = (req:Request, res:Response, next:NextFunction) => {
+export const tokenCheck = async(req:Request, res:Response, next:NextFunction) => {
     const aToken = <string>req.headers['access'];
     const reToken = <string>req.headers['refresh'];
     
     let jwtPayload;
-    const getAsync = promisify(redisClient.get).bind(redisClient);
+    const getAsync = await promisify(redisClient.get).bind(redisClient);
 
     try {
-        jwtPayload = <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
+        jwtPayload = await <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
         res.locals.jwtPayload = jwtPayload;  // 미들웨어를 거쳐 어디에서나 쓸수 있는 변수로 만듬
-
-        const data = getAsync(res.locals.jwtPayload.userId);
-        if(reToken === data) {
-            try {
-                jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
-            } catch (e) {
-                res.status(403).send()
-            }
-        }
     } catch (e) {
         res.status(400).send();
     }
@@ -35,12 +26,26 @@ export const tokenCheck = (req:Request, res:Response, next:NextFunction) => {
         process.env.JWT_ACCESS_SECRET,
         {expiresIn: '1h'}
     );
+
+    const data = await getAsync(userId);
+    console.log(data)
+
+    if(reToken === data) {
+        try {
+            const decoded = jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
+            console.log(decoded)
+        } catch (e) {
+            res.status(403).send()
+        }
+    }
+
     const refreshToken = jwt.sign(
         {userId, userName},
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
     
+    res.status(200).send("success")
     res.setHeader("access", accessToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
     res.setHeader("refresh", refreshToken);
 
