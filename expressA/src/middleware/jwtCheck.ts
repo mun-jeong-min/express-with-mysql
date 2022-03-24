@@ -23,8 +23,6 @@ export const tokenCheck = (req:Request, res:Response, next:NextFunction) => {
             } catch (e) {
                 res.status(403).send()
             }
-        } else {
-            res.status(400).send();
         }
     } catch (e) {
         res.status(400).send();
