@@ -18,18 +18,18 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     } catch (e) {
         res.status(400).send();
     }
-
+    
     let {userId, userName} = jwtPayload;
     
     const accessToken = jwt.sign(
         {userId, userName},
         process.env.JWT_ACCESS_SECRET,
-        {expiresIn: '1h'}
+        {expiresIn: '2h'}
     );
 
     const data = await getAsync(userId);
-    console.log(data)
-
+    console.log(data);
+    
     if(reToken === data) {
         try {
             const decoded = jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
@@ -46,6 +46,7 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     )
     
     res.status(200).send("success")
+
     res.setHeader("access", accessToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
     res.setHeader("refresh", refreshToken);
 
