@@ -40,7 +40,7 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     }
 
     const refreshToken = jwt.sign(
-        {userId, userName},
+        {},
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
