@@ -28,7 +28,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
         res.status(400).send("게시판 작성에 실패하셨습니다.")
         return;
     }
-    res.status(201).send("게시판 작성 성공")
+    res.status(201).redirect("board/find")
 })
 
 router.get('/find', async(req:express.Request, res:express.Response) => {
@@ -84,7 +84,7 @@ router.put('/update/:id', async(req:express.Request, res:express.Response) => {
         res.status(400).send()
         return;
     }
-    res.status(201).send("수정 성공")
+    res.status(201).redirect("board/find")
 })
 
 router.delete('/delete/:id', async(req:express.Request, res: express.Response) => {
@@ -99,6 +99,6 @@ router.delete('/delete/:id', async(req:express.Request, res: express.Response) =
         res.status(400).send()
         return;
     }
-    res.status(200).send("삭제 성공")
+    res.status(200).redirect("board/find")
 })
 export default router
