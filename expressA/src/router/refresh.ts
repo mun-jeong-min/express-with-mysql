@@ -10,7 +10,7 @@ router.post('/refresh', async(req:Request, res:Response) => {
     try {
         const getA = promisify(redisClient.get).bind(redisClient)
         const data = getA(res.locals.jwtPayload.id)
-        
+
         
     } catch (e) {
         
