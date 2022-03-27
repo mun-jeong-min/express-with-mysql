@@ -20,6 +20,7 @@ router.post('/create', async(req: express.Request, res:express.Response) => {
     board.title = title;
     board.description = description;
     board.user = user;
+    board.image = `/images/${req.file.filename}`
 
     try {
         await boardRepository.save(board);
@@ -40,6 +41,15 @@ router.get('/find', async(req:express.Request, res:express.Response) => {
         res.status(400).send();
         return;
     }
+})
+
+router.get('findOne/:id', async(req:express.Request, res:express.Response) => {
+    const id = req.params.id;
+
+    const boardRepository = getRepository(Board);
+    const board = await boardRepository.findOne({where: {id:id}});
+
+    res.status(200).send(board);
 })
 
 router.get('/findMine', async(req:express.Request, res:express.Response) => {
