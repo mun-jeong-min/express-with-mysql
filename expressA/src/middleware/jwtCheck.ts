@@ -10,7 +10,6 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     const reToken = <string>req.headers['refresh'];
     
     let jwtPayload;
-    const getAsync = await promisify(redisClient.get).bind(redisClient);
 
     try {
         jwtPayload = await <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
@@ -27,20 +26,8 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
         {expiresIn: '2h'}
     );
 
-    const data = await getAsync(userId);
-    console.log(data);
-    
-    if(reToken === data) {
-        try {
-            const decoded = jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
-            console.log(decoded)
-        } catch (e) {
-            res.status(403).send()
-        }
-    }
-
     const refreshToken = jwt.sign(
-        {},
+        {userId},
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )

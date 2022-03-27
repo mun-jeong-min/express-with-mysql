@@ -51,11 +51,11 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         {expiresIn:'1h'}
     )
     const refreshToken = jwt.sign(
-        {},
+        {userId: user.id},
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
-    redisClient.set(`${user.id}`, refreshToken) //*`
+    redisClient.set(`${user.id}`, refreshToken) //*
     
     res.status(200).send(`로그인 성공 accessToken : ${accessToken}, refreshToken : ${refreshToken}`)
 })
