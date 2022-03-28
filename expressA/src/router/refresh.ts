@@ -3,23 +3,38 @@ import * as jwt from 'jsonwebtoken'
 import { promisify } from 'util';
 import redisClient from '../redis/redis';
 import router from './user';
+import * as dotenv from 'dotenv'
+import { getRepository } from 'typeorm';
+import { User } from '../entity/user/user.entity';
+dotenv.config()
 
-router.post('/refresh', async(req:Request, res:Response) => {
+router.post('/reGet', async(req:Request, res:Response) => {
+    const aToken = <string>req.headers['access'];
     const reToken = <string>req.headers['refresh'];
-    // accesstoken 유효기간 체크
-    try {
-        const getA = promisify(redisClient.get).bind(redisClient)
-        const data = getA(res.locals.jwtPayload.id)
+    const id = req.body.id;
 
-        
+    const userRepository = getRepository(User)
+
+    const getA = promisify(redisClient.get).bind(redisClient)
+    const data = getA(id) 
+    let user:User;
+    try {                      
+        user = await userRepository.findOneOrFail({where: {id}});
     } catch (e) {
-        
+        res.status(400).send()
+        console.log(e)
     }
+
+    jwt.verify(reToken, data) 
+    jwt.verify(aToken, process.env.JWT_ACCESS_SECRET, {ignoreExpiration:true})
     
-    
-    // 없으면 refreshtoken 있는지 확인
-    
-    // 있으면 재발급
+    const accessToken = jwt.sign(
+        {userId:user.id, userName: user.name}
+        ,process.env.JWT_ACCESS_SECRET,
+        {expiresIn: '1h'}
+        )
+        
+    res.status(200).send(`newAccesstoken: ${accessToken}`)
 })
 
 export default router
