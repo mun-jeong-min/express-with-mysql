@@ -21,3 +21,5 @@ router.post('/refresh', async(req:Request, res:Response) => {
     
     // 있으면 재발급
 })
+
+export default router

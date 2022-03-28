@@ -8,8 +8,8 @@ import * as cors from 'cors'
 import userRouter from './router/user'
 import boardRouter from './router/board'
 import commentRouter from './router/comment'
+import refreshRouter from './router/refresh'
 import { tokenCheck } from "./middleware/jwtCheck";
-import * as ejs from 'ejs'
 
 createConnection().then(async connection => {
     app.use(bodyParser.urlencoded({extended:true}))
@@ -22,6 +22,7 @@ createConnection().then(async connection => {
     app.use('/user', userRouter);
     app.use('/board',[tokenCheck], boardRouter); 
     app.use('/comment',[tokenCheck], commentRouter);
+    app.use('/', refreshRouter);
     
     app.get('/', async(req,res) => {
         res.render("as")
