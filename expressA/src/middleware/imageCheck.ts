@@ -12,5 +12,4 @@ const storage = multer.diskStorage({
     },
 })
 
-const upload = multer({storage:storage})
-upload.single('image') // input 태그의 name 속성값
+export default storage

@@ -4,9 +4,13 @@ import { boardDto } from '../entity/board/dto/board.dto';
 import { Board } from '../entity/board/board.entity'
 import { User } from '../entity/user/user.entity';
 import { Comment } from '../entity/comment/comment.entity';
+import * as multer from 'multer'
+import storage from '../middleware/imageCheck';
 const router = express.Router();
 
-router.post('/create', async(req: express.Request, res:express.Response) => {   
+const upload = multer({storage:storage})
+
+router.post('/create', upload.single('image'), async(req: express.Request, res:express.Response) => {   
     const id = res.locals.jwtPayload.userId;
     
     const boardRepository = getRepository(Board);
