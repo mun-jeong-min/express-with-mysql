@@ -23,7 +23,7 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     const accessToken = jwt.sign(
         {userId, userName},
         process.env.JWT_ACCESS_SECRET,
-        {expiresIn: '2h'}
+        {expiresIn: '1h'}
     );
 
     const refreshToken = jwt.sign(
@@ -31,8 +31,6 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
-    
-    res.status(200).send("success")
 
     res.setHeader("access", accessToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
     res.setHeader("refresh", refreshToken);

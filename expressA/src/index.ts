@@ -20,9 +20,9 @@ createConnection().then(async connection => {
     app.use(express.static(__dirname + '/'))
 
     app.use('/user', userRouter);
-    app.use('/board',[tokenCheck], boardRouter); 
+    app.use('/board',[tokenCheck], boardRouter);
     app.use('/comment',[tokenCheck], commentRouter);
-    app.use('/', refreshRouter);
+    app.use('/refresh',[tokenCheck], refreshRouter);
     
     app.get('/', async(req,res) => {
         res.render("as")
