@@ -50,7 +50,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
         process.env.JWT_ACCESS_SECRET,
         {expiresIn:'2h'}
     )
-    const refreshToken = jwt.sign(
+    const refreshToken = jwt.sign(  
         {userId: user.id
         },
         process.env.JWT_REFRESH_SECRET,
