@@ -5,10 +5,10 @@ import * as bodyParser from 'body-parser';
 const app = express()
 
 import * as cors from 'cors'
-import userRouter from './router/user'
-import boardRouter from './router/board'
-import commentRouter from './router/comment'
-import refreshRouter from './router/refresh'
+import userRouter from './router/routes/user'
+import boardRouter from './router/routes/board'
+import commentRouter from './router/routes/comment'
+import refreshRouter from './router/routes/refresh'
 import { tokenCheck } from "./middleware/jwtCheck";
 
 createConnection().then(async connection => {

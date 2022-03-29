@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { promisify } from 'util';
-import redisClient from '../redis/redis';
+import redisClient from '../../redis/redis';
 import router from './user';
 import * as dotenv from 'dotenv'
 import { getRepository } from 'typeorm';
-import { User } from '../entity/user/user.entity';
+import { User } from '../../entity/user/user.entity';
 dotenv.config()
 
 router.post('/reGet', async(req:Request, res:Response) => {

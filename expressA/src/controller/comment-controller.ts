@@ -1,13 +1,10 @@
-import * as express from 'express';
-import { getRepository } from 'typeorm';
-import { commentDto } from '../entity/comment/dto/comment.dto';
-import { Comment } from '../entity/comment/comment.entity';
-import { User } from '../entity/user/user.entity';
-import { Board } from '../entity/board/board.entity';
+import { getRepository } from "typeorm";
+import { Board } from "../entity/board/board.entity";
+import { Comment } from "../entity/comment/comment.entity";
+import { commentDto } from "../entity/comment/dto/comment.dto";
+import { User } from "../entity/user/user.entity";
 
-const router = express.Router();
-
-router.post('/create/:id', async(req:express.Request, res:express.Response) => {
+export const createComment = async(req,res) => {
     let {script}:commentDto = req.body;
     let idP = req.params.id;
 
@@ -33,9 +30,9 @@ router.post('/create/:id', async(req:express.Request, res:express.Response) => {
         return;
     }
     return res.status(200).send("댓글 작성")
-})
+}
 
-router.get('/find', async(req:express.Request, res: express.Response) => {
+export const findComment = async(req,res) => {
     const commentRepository = getRepository(Comment);
     
     try {
@@ -44,9 +41,9 @@ router.get('/find', async(req:express.Request, res: express.Response) => {
     } catch (e) {
         res.status(404).send(e);
     }
-})
+}
 
-router.put('/update/:id', async(req:express.Request, res:express.Response) => {
+export const updateComment = async(req,res) => {
     const commentRepository = getRepository(Comment);
 
     const id = req.params.id;
@@ -63,9 +60,9 @@ router.put('/update/:id', async(req:express.Request, res:express.Response) => {
         return;
     }
     res.status(200).send('업데이트 완료')
-})
+}
 
-router.delete('/delete/:id', async(req:express.Request, res:express.Response) => {
+export const deleteComment = async(req,res) => {
     const commentRepository = getRepository(Comment);
     const id = req.params.id;
 
@@ -78,5 +75,6 @@ router.delete('/delete/:id', async(req:express.Request, res:express.Response) =>
         return;
     }
     res.status(200).send("댓글 삭제 성공")
-})
-export default router
+}
+
+export default {createComment,findComment,updateComment,deleteComment}
