@@ -9,32 +9,33 @@ import { User } from '../entity/user/user.entity';
 dotenv.config()
 
 router.post('/reGet', async(req:Request, res:Response) => {
-    const aToken = <string>req.headers['access'];
+    let aToken = <string>req.headers['access'];
     const reToken = <string>req.headers['refresh'];
     const id = req.body.id;
 
     const userRepository = getRepository(User)
 
     const getA = promisify(redisClient.get).bind(redisClient)
-    const data = getA(id) 
-    let user:User;
-    try {                      
-        user = await userRepository.findOneOrFail({where: {id}});
-    } catch (e) {
-        res.status(400).send()
-        console.log(e)
-    }
-
-    jwt.verify(reToken, data) 
-    jwt.verify(aToken, process.env.JWT_ACCESS_SECRET, {ignoreExpiration:true})
+    const data = getA(id)
     
-    const accessToken = jwt.sign(
+    const payload = await <any>jwt.verify(reToken, data)
+    let user:User;
+
+    let {userId} = payload;
+
+    try {
+        user = await userRepository.findOneOrFail({where:{userId}});
+    } catch (e) {
+        res.status(404).send("user not found")
+    }
+    
+    aToken = jwt.sign(
         {userId:user.id, userName: user.name}
-        ,process.env.JWT_ACCESS_SECRET,
-        {expiresIn: '1h'}
+        ,<string>process.env.JWT_ACCESS_SECRET,
+        {expiresIn: '2h'}
         )
         
-    res.status(200).send(`newAccesstoken: ${accessToken}`)
+    res.status(200).send(`newAccesstoken: ${aToken}`)
 })
 
 export default router
