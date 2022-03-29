@@ -5,11 +5,7 @@ import * as bodyParser from 'body-parser';
 const app = express()
 
 import * as cors from 'cors'
-import userRouter from './router/routes/user'
-import boardRouter from './router/routes/board'
-import commentRouter from './router/routes/comment'
-import refreshRouter from './router/routes/refresh'
-import { tokenCheck } from "./middleware/jwtCheck";
+import apiRouter from './router/index'
 
 createConnection().then(async connection => {
     app.use(bodyParser.urlencoded({extended:true}))
@@ -19,11 +15,8 @@ createConnection().then(async connection => {
     app.set('view engine', 'ejs')
     app.use(express.static(__dirname + '/'))
 
-    app.use('/user', userRouter);
-    app.use('/board',[tokenCheck], boardRouter);
-    app.use('/comment',[tokenCheck], commentRouter);
-    app.use('/refresh', refreshRouter);
-    
+    app.use('/', apiRouter);
+
     app.get('/', async(req,res) => {
         res.render("as")
     })

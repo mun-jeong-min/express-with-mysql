@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as jwt from 'jsonwebtoken'
-import redisClient from "../redis/redis";
 import * as dotenv from 'dotenv'
-import { promisify } from "util";
 dotenv.config();
 
 export const tokenCheck = async(req:Request, res:Response, next:NextFunction) => {

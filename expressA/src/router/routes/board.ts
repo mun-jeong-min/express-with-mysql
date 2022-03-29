@@ -1,9 +1,4 @@
 import * as express from 'express'
-import { getRepository } from 'typeorm';
-import { boardDto } from '../../entity/board/dto/board.dto';
-import { Board } from '../../entity/board/board.entity'
-import { User } from '../../entity/user/user.entity';
-import { Comment } from '../../entity/comment/comment.entity';
 import * as multer from 'multer'
 import boardController from '../../controller/board-controller';
 import storage from '../../middleware/imageCheck';
