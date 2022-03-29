@@ -9,21 +9,24 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     const aToken = <string>req.headers['access'];
     const reToken = <string>req.headers['refresh'];
     
-    let jwtPayload;
+    let jwtAccessPayload;
+    let jwtRefreshPayload;
 
     try {
-        jwtPayload = await <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
-        res.locals.jwtPayload = jwtPayload;  // 미들웨어를 거쳐 어디에서나 쓸수 있는 변수로 만듬
+        jwtAccessPayload = await <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
+        res.locals.jwtPayload = jwtAccessPayload;  // 미들웨어를 거쳐 어디에서나 쓸수 있는 변수로 만듬
+
+        jwtRefreshPayload = await <any>jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
     } catch (e) {
         res.status(400).send();
     }
     
-    let {userId, userName} = jwtPayload;
+    let {userId, userName} = jwtAccessPayload;
     
     const accessToken = jwt.sign(
         {userId, userName},
         process.env.JWT_ACCESS_SECRET,
-        {expiresIn: '1h'}
+        {expiresIn: '2h'}
     );
 
     const refreshToken = jwt.sign(

@@ -22,7 +22,7 @@ createConnection().then(async connection => {
     app.use('/user', userRouter);
     app.use('/board',[tokenCheck], boardRouter);
     app.use('/comment',[tokenCheck], commentRouter);
-    app.use('/refresh',[tokenCheck], refreshRouter);
+    app.use('/refresh', refreshRouter);
     
     app.get('/', async(req,res) => {
         res.render("as")
