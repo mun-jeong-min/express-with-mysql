@@ -19,7 +19,7 @@ router.post('/create/:id', async(req:express.Request, res:express.Response) => {
     
     const user = await userRepository.findOneOrFail({where: {id:id}});
     const board = await boardRepository.findOneOrFail({where: {id: idP}});
-
+    
     let comment = new Comment();
 
     comment.script = script;
@@ -29,7 +29,7 @@ router.post('/create/:id', async(req:express.Request, res:express.Response) => {
     try {
         await commentRepository.save(comment);
     } catch (e) {
-        res.status(400).send(e)
+        res.status(409).send(e)
         return;
     }
     return res.status(200).send("댓글 작성")
@@ -42,7 +42,7 @@ router.get('/find', async(req:express.Request, res: express.Response) => {
      const data = await commentRepository.find();
      res.status(200).send(data);
     } catch (e) {
-        res.status(400).send(e);
+        res.status(404).send(e);
     }
 })
 
@@ -70,11 +70,11 @@ router.delete('/delete/:id', async(req:express.Request, res:express.Response) =>
     const id = req.params.id;
 
     const comment = await commentRepository.findOne({where: {id:id}});
-
+    
     try {
-        await commentRepository.delete(comment);
+        await commentRepository.delete(comment);    
     } catch (e) {
-        res.status(400).send()
+        res.status(400).send("댓글 삭제 실패")
         return;
     }
     res.status(200).send("댓글 삭제 성공")

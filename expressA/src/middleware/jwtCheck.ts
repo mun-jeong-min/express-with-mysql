@@ -18,7 +18,7 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
 
         jwtRefreshPayload = await <any>jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
     } catch (e) {
-        res.status(400).send();
+        res.status(401).send();
     }
     
     let {userId, userName} = jwtAccessPayload;

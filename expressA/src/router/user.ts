@@ -42,7 +42,7 @@ router.post('/signin', async(req:express.Request, res:express.Response) => {
     }
 
     if(!bcrypt.compareSync(password, user.password)){
-        res.status(401).send();
+        res.status(409).send();
         return;
     }
     const accessToken = jwt.sign(
