@@ -48,7 +48,7 @@ export const updateComment = async(req,res) => {
 
     const id = req.params.id;
     let {script}:commentDto = req.body;
-
+    
     const comment = await commentRepository.findOne({where: {id:id}});
 
     comment.script = script;  
