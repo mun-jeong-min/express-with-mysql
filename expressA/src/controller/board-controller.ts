@@ -1,8 +1,6 @@
 import { getRepository } from "typeorm";
 import { Board } from "../entity/board/board.entity";
 import { boardDto } from "../entity/board/dto/board.dto";
-import { Comment } from "../entity/comment/comment.entity";
-import { commentDto } from "../entity/comment/dto/comment.dto";
 import { User } from "../entity/user/user.entity";
 
 export const boardCreate = async(req,res) => {

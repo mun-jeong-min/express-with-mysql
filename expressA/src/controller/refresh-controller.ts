@@ -2,6 +2,7 @@ import { getRepository } from "typeorm";
 import { User } from "../entity/user/user.entity";
 import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
+dotenv.config();
 
 export const refresh = async(req,res) => {
     let aToken = <string>req.headers['access'];

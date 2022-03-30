@@ -8,6 +8,7 @@ router.post('/create/:id', commentController.createComment);
 router.get('/find', commentController.findComment);
 
 router.put('/update/:id', commentController.updateComment);
-
+ 
 router.delete('/delete/:id', commentController.deleteComment);
+
 export default router
