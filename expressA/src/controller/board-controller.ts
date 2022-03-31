@@ -10,7 +10,7 @@ export const boardCreate = async(req,res) => {
     const userRepository = getRepository(User);
 
     const user = await userRepository.findOneOrFail({ where: {id:id} })
-
+    
     let {title, description}:boardDto = req.body;
     let board = new Board();
     
