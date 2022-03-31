@@ -17,9 +17,9 @@ export class Board extends BaseEntity{
     @Column()
     image: string;
 
-    @ManyToOne(() => User, user=>user.board, {eager:false})
+    @ManyToOne(() => User, user=>user.board)
     user:User;
 
-    @OneToMany(() => Comment, comment => comment.board, { eager:false })
+    @OneToMany(() => Comment, comment => comment.board)
     comment:Comment[];
 }

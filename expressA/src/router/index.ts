@@ -4,11 +4,13 @@ import userRouter from './routes/user'
 import boardRouter from './routes/board'
 import refreshRouter from './routes/refresh'
 import commentRouter from './routes/comment'
+import groupRouter from './routes/group'
 import { tokenCheck } from '../middleware/jwtCheck';
 
 router.use('/board', [tokenCheck] ,boardRouter);
 router.use('/user', userRouter);
 router.use('/refresh', refreshRouter);
 router.use('/comment',[tokenCheck], commentRouter);
+router.use('/group', [tokenCheck], groupRouter);
 
 export default router

@@ -11,9 +11,9 @@ export class Comment extends BaseEntity{
     @Column()
     script: string;
 
-    @ManyToOne(() => Board, board=>board.comment, {eager:true})
+    @ManyToOne(() => Board, board=>board.comment)
     board:Board;
 
-    @ManyToOne(() => User, user => user.comment, {eager:false})
+    @ManyToOne(() => User, user => user.comment)
     user:User;
 }
