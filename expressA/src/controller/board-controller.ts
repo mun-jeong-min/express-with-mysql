@@ -13,7 +13,7 @@ export const boardCreate = async(req,res) => {
     
     let {title, description}:boardDto = req.body;
     let board = new Board();
-    
+
     board.title = title;
     board.description = description;
     board.user = user;

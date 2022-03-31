@@ -9,14 +9,14 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
     
     let jwtAccessPayload;
     let jwtRefreshPayload;
-
+    
     try {
         jwtAccessPayload = await <any>jwt.verify(aToken, process.env.JWT_ACCESS_SECRET)
         res.locals.jwtPayload = jwtAccessPayload;  // 미들웨어를 거쳐 어디에서나 쓸수 있는 변수로 만듬
 
         jwtRefreshPayload = await <any>jwt.verify(reToken, process.env.JWT_REFRESH_SECRET)
     } catch (e) {
-        res.status(401).send();
+        res.status(403).send();
     }
     
     let {userId, userName} = jwtAccessPayload;
