@@ -1,6 +1,6 @@
 import { group } from "console";
 import { type } from "os";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../user/user.entity";
 
 @Entity()
@@ -11,6 +11,6 @@ export class Group extends BaseEntity {
     @Column()
     name: string;
 
-    @OneToMany(() => User, user => user.group)
+    @OneToMany(() => User, user => user.group, {eager:false})
     user:User[];
 }
