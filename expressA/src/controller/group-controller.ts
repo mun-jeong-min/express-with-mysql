@@ -9,7 +9,7 @@ export const groupCreate = async(req,res) => {
     const id = res.locals.jwtPayload.userId;
 
     const userRepository = getRepository(User);
-    const user = await userRepository.findOneOrFail({where: {id:id}})
+    const user = await userRepository.find({where: {id:id}})
 
     if(!user) {
         res.status(404).send('not found')
