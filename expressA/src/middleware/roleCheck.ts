@@ -16,7 +16,7 @@ export const roleCheck = async(req,res) => {
         res.status(404).send();
     }
     
-    if(user.role === 'user'){
+    if(user.role === 'user') {
         res.status(403).send();
         return;
     }
