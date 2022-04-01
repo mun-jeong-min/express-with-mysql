@@ -32,7 +32,7 @@ export const tokenCheck = async(req:Request, res:Response, next:NextFunction) =>
         process.env.JWT_REFRESH_SECRET,
         {expiresIn:'12d'}
     )
-
+    
     res.setHeader("access", accessToken); // 키/값 을 인자로 받아 헤더에 세팅한다.
     res.setHeader("refresh", refreshToken);
 
