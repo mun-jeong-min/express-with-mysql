@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import { User } from "../entity/user/user.entity";
+import { User } from "../../entity/user/user.entity";
 import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 dotenv.config();

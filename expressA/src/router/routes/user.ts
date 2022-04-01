@@ -1,7 +1,7 @@
 import * as express from 'express';
 const router = express.Router();
 import * as dotenv from 'dotenv'
-import { signin, signup } from '../../controller/user-controller';
+import { signin, signup } from '../../controller/user/user-controller';
 dotenv.config();
 
 router.post('/signup', signup);

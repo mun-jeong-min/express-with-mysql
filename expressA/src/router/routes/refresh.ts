@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv'
-import refreshController from '../../controller/refresh-controller';
+import refreshController from '../../controller/user/refresh-controller';
 dotenv.config()
 const router = express.Router();
 

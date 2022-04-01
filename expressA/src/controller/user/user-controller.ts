@@ -1,18 +1,18 @@
-import { userDto } from "../entity/user/dto/signup.dto";
-import { User } from "../entity/user/user.entity";
+import { userDto } from "../../entity/user/dto/signup.dto";
+import { User } from "../../entity/user/user.entity";
 import * as bcrypt from 'bcrypt'
 import { getRepository } from "typeorm";
-import { loginDto } from "../entity/user/dto/login.dto";
+import { loginDto } from "../../entity/user/dto/login.dto";
 import * as jwt from 'jsonwebtoken'
-import redisClient from "../redis/redis";
+import redisClient from "../../redis/redis";
 import * as dotenv from 'dotenv'
 dotenv.config();
 
 export const signup = async(req,res) => {
     let { role, name, password }:userDto = req.body;
     let user = new User();
-
-    const hashPassword = bcrypt.hashSync(password,+process.env.salt)
+    
+    const hashPassword = bcrypt.hashSync(password, +process.env.salt);
 
     user.role = role;
     user.password = hashPassword;
