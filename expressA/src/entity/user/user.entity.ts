@@ -26,5 +26,6 @@ export class User extends BaseEntity{
     comment:Comment[];
 
     @ManyToOne(() => Group, group => group.user, {eager:true})
+    @JoinColumn({ name: 'group_id' })
     group:Group;
 }

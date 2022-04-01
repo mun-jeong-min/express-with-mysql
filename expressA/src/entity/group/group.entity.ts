@@ -12,5 +12,6 @@ export class Group extends BaseEntity {
     name: string;
 
     @OneToMany(() => User, user => user.group, {eager:false})
+    @JoinColumn({ name: 'user_id' })
     user:User[];
 }
