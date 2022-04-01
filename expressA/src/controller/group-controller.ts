@@ -27,4 +27,17 @@ export const groupCreate = async(req,res) => {
     res.status(200).send('group create')
 }
 
-export default {groupCreate}
+export const groupFind = async(req,res) => {
+    const id = res.locals.jwtPayload.userId;
+    
+    const groupRepository = getRepository(Group)
+
+    const groups = await groupRepository.findOneOrFail({where:{id:id}})
+
+    if(!groups){
+        res.status(404).send("그룹을 찾을 수 없음")
+        return;
+    }
+    res.status(200).send(groups);
+}
+export default {groupCreate,groupFind}
