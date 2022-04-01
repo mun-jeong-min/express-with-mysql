@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm"
+import { getRepository, Repository } from "typeorm"
 import { groupDto } from "../entity/group/dto/group.dto";
 import { Group } from "../entity/group/group.entity"
 import { User } from "../entity/user/user.entity";
@@ -40,4 +40,22 @@ export const groupFind = async(req,res) => {
     }
     res.status(200).send(groups);
 }
+
+export const groupDelete = async(req,res) => {
+    const id = req.params.id;
+
+    const groupRepository = getRepository(Group);
+    
+    const group = await groupRepository.findOneOrFail({where:{id:id}})
+
+    if(!group){
+        res.status(404).send()
+        return;
+    }
+
+    await groupRepository.delete(group)
+
+    res.status(200).send("삭제 성공")
+}
+
 export default {groupCreate,groupFind}
