@@ -58,4 +58,4 @@ export const groupDelete = async(req,res) => {
     res.status(200).send("삭제 성공")
 }
 
-export default {groupCreate,groupFind}
+export default {groupCreate,groupFind, groupDelete}
