@@ -1,0 +1,9 @@
+{
+    "extends": "eslint:recommended",
+    // rules.page v 표시된 항목을 자동으로 검사하는 옵션입니다.
+    "rules": {
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"]
+    }
+    // 
+}
