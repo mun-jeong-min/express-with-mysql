@@ -15,7 +15,7 @@ export const profilePrint = async(req,res) => {
     profile.name = user.name
 
     if(!user) {
-        res.status(404).send()
+        res.status(404).
         return;
     }
 
@@ -37,7 +37,7 @@ export const profileUpdate = async(req,res) => {
 
     await profileRepository.save(profile);
 
-    res.status(200).send();
+    res.status(200).redirect('/read/:id')
 }
 
 export default {profilePrint,profileUpdate}

@@ -25,7 +25,7 @@ export const boardCreate = async(req,res) => {
         res.status(400).send("게시판 작성에 실패하셨습니다.")
         return;
     }
-    res.status(201).redirect("board/find")
+    res.status(201).redirect("/find")
 }
 
 export const boardFind = async(req,res) => {
@@ -87,7 +87,7 @@ export const updateBoard = async(req,res) => {
         res.status(409).send()
         return;
     }
-    res.status(201).redirect("board/find")
+    res.status(201).redirect("/find")
 }
 
 export const deleteBoard = async(req,res) => {
@@ -101,7 +101,7 @@ export const deleteBoard = async(req,res) => {
         res.status(404).send()
         return;
     }
-    res.status(200).redirect("board/find")
+    res.status(200).redirect("/find")
 }
 
 export default {boardCreate,boardFind,findOne,findMine,updateBoard,deleteBoard}
